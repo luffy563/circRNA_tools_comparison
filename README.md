@@ -23,7 +23,7 @@ The real datasets are available from the NCBI Gene Expression Omnibus (GEO) data
 # Useage
 - bash.sh: one-step shell script of general circRNA-seq analysis pipeline for all software tools
 ## results  
-the raw, filtered or/and annotated predicted candidates by each software under different dataset (can be downloaded from figshare).
+the raw, filtered or/and annotated predicted candidates by each software under different dataset (can be downloaded from figshare: https://doi.org/10.6084/m9.figshare.19090640.v1).
 - circ_candidates.bed: raw identified circRNA bed format file for each software package
 - circ_candidates_convert.bed: coonverted circRNA bed format file (genome coordinate converted to uniform 0-based format)
 - circularRNA_known.txt: annotated circRNA information file generated from CIRCexplorer2 annotate moudle
