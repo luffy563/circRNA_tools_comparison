@@ -6,6 +6,7 @@ Northwest A&F University,
 Mingzhi Liao, Xianyong Lan
   
 Authors: Hongfei Liu
+
 Contact: lhf563@nwafu.edu.cn
 
 This project is avaliable for the comparison of different circRNA software packages predicted from short-read illumina sequencing datasets.
