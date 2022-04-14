@@ -5,26 +5,27 @@ import matplotlib.pyplot as plt
 import random
 from sklearn.metrics import auc
 
+# # function for selecting color set
+# def randomcolor(n):
+    # colorArr = ['1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+    # color = ""
+    # colors=[]
+    # for i in range(n):
+        # color=''
+        # for j in range(6):
+            # color += colorArr[random.randint(0,14)]
+        # color = '#' + color
+        # colors.append(color)
+    # return colors
 
-# with open('software_list.txt', 'r') as f:
-f = open('software_list.txt', 'r') # 读取软件列表
+# colors = randomcolor(11)
+# plt.bar(range(0,9),1,color=colors)
+# plt.show()
 
-def randomcolor(n):
-    colorArr = ['1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
-    color = ""
-    colors=[]
-    for i in range(n):
-        color=''
-        for j in range(6):
-            color += colorArr[random.randint(0,14)]
-        color = '#' + color
-        colors.append(color)
-    return colors
-
+# Set the fixed color set for different software
 colors = ['#f8766d','#d39200','#93aa00','#00ba38','#00c19f','#00b9e3','#619cff','#db72fb','#ff61c3']
-plt.bar(range(0,9),1,color=colors)
-plt.show()
-recovery_matrix = pd.DataFrame(data=None)
+
+
 # total reads counts
 path = './' + 'CIRI2' + '/positive/circ_candidates_convert.bed'
 data = pd.read_table(path).iloc[:, 0:6]
@@ -35,10 +36,12 @@ data['n_reads'] = pd.Series([int(x) for x in data['n_reads']])
 data['total_counts'] = data['n_reads'] + data['linear']
 data_total_counts = data[['chrom', 'start', 'end', 'total_counts']]
 data_total_counts.to_csv('data_total_counts.csv',index=False, sep=',')
-# Positive dataset
+## Positive dataset
 ############
 # Figure 1 #
 ############
+recovery_matrix = pd.DataFrame(data=None)
+
 fig=plt.figure(figsize=(12,8),dpi = 300)
 P_pos, R_pos, AUC_pos, softlist = [], [], [], []
 plt.style.use('ggplot')
@@ -168,14 +171,14 @@ for line,color in zip(f, colors):
     plt.xlabel('Recall',fontsize=25)
     plt.ylabel('Precision',fontsize=25)
 
-plt.savefig('fig1A.svg',dpi=600)
+plt.savefig('fig1.svg',dpi=600)
 plt.show()
 
 
-############
-# Figure 6 #
-############
-# figure 6 recoverd rate at each candidate
+#############
+# Figure S4 #
+#############
+# figure S4 recoverd rate at each candidate for different software
 fig=plt.figure(figsize=(12,8),dpi = 300)
 plt.style.use('ggplot')
 # recovery_matrix_1=pd.melt(recovery_matrix,var_name='Software',value_name='Recovery rate')
@@ -184,15 +187,16 @@ ax.grid(b=False)
 recovery_matrix.to_csv('recovery_matrix.csv',index=False,sep=',')
 for tick in ax.get_xticklabels():
     tick.set_rotation(45)
-plt.savefig('fig4E.svg',dpi=600)
+plt.savefig('figS4.svg',dpi=600)
 plt.show()
 
-# Mixed datasets
+
+### Mixed datasets
 ############
 # Figure 2 #
 ############
 # Figure 2
-f = open('software_list.txt', 'r') # 读取软件列表
+f = open('software_list.txt', 'r') # read software list
 fig=plt.figure(figsize=(12, 8), dpi=300)
 plt.style.use('ggplot')
 subset = []
@@ -324,38 +328,10 @@ plt.show()
 
 # The change of PR value between mixed and positive
 
-import unicodecsv as ucsv
-# data = pd.DataFrame({"software":softlist, "P_mix":P_mix, "R_mix":R_mix, "AUC_mix":AUC_mix, "P_pos":P_pos, "R_pos":R_pos, "AUC_pos":AUC_pos})
-# data.to_csv("test.csv",index=False,sep=',')
-
-##############
-# Figure 3-1 #
-##############
-
-# import venn as v
-#
-# subsets = [set(subset[0]), set(subset[1]),set(subset[2]),set(subset[3]),set(subset[4]), set(subset[5])]
-# plt.figure(figsize=(120, 80), dpi=300)
-#
-# f = open('software_list.txt', 'r') # 读取软件列表
-# d={}
-# d.fromkeys(d.fromkeys(softlist))
-# for line,i in zip(f, range(len(softlist))):
-#     line = line.replace('\n', '')
-#     print(i)
-#     print(line)
-#     d[line] = subsets[i]
-#
-# out = v.venn(d, fontsize=15)
-# plt.show()
-
-
-
-# Real dataset
+### Real dataset
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# f = open('software_list.txt', 'r') # 读取软件列表
 typelist=['reads_map','reads_map','reads_map','k-mer','k-mer','reads_map','reads_map','reads_map','reads_map']
 hela_norm,hela_rnaser,k562_norm,k562_rnaser,yLabel = [],[],[],[],[]
 
@@ -367,9 +343,9 @@ tp_data = pd.read_table(tp_path,header=None).iloc[:,0:4]
 tp_data.columns = ['chrom','start','end','circRNA_ID']
 
 
-fig,ax=plt.subplots(nrows=2,ncols=1,figsize=(12,16),dpi=300)
-ax=ax.flatten()
-plt.style.use('ggplot')
+# fig,ax=plt.subplots(nrows=2,ncols=1,figsize=(12,16),dpi=300)
+# ax=ax.flatten()
+# plt.style.use('ggplot')
 
 for line,color in zip(softlist, colors):
     line = line.replace('\n', '')
@@ -395,7 +371,7 @@ for line,color in zip(softlist, colors):
     k562_norm_data=pd.merge(dataset[4],dataset[5],how='outer',on=['chrom','start','end'])
     k562_rnaser_data=pd.merge(dataset[6],dataset[7],how='outer',on=['chrom','start','end'])
 
-    # RNaseR处理前后样本平均
+    # Mean value of before and after RNaseR treat
     norm_data=pd.merge(hela_norm_data,hela_rnaser_data,how='outer',on=['chrom','start','end'])
     hypo_data=pd.merge(k562_norm_data,k562_rnaser_data,how='outer',on=['chrom','start','end'])
     # PR-curve
@@ -489,8 +465,8 @@ for line,color in zip(softlist, colors):
     k562_rnaser.append(k562_rnaser_data)
     yLabel.append(line)
 
-plt.savefig('fig1CD.svg',dpi=600)
-plt.show()
+# plt.savefig('fig1CD.svg',dpi=600)
+# plt.show()
 
 # norm_inter = pd.concat(norm, axis=1, join='inner')
 # hypo_inter = pd.concat(hypo, axis=1, join='inner')
@@ -510,12 +486,12 @@ for i in range(len(yLabel)):
     hela_rnaser_map[:, i] = np.log2(hela_rnaser_inter.iloc[:, i + 3])
     k562_norm_map[:, i] = np.log2(k562_norm_inter.iloc[:, i + 3])
     k562_rnaser_map[:, i] = np.log2(k562_rnaser_inter.iloc[:, i + 3])
-# 根据不同的软件依次排序
+# Ordered by the software list
 # hela_norm_map = hela_norm_map[np.lexsort(-hela_norm_map.T)].T
 # hela_rnaser_map = hela_rnaser_map[np.lexsort(-hela_rnaser_map.T)].T
 # k562_norm_map = k562_norm_map[np.lexsort(-k562_norm_map.T)].T
 # k562_rnaser_map = k562_rnaser_map[np.lexsort(-k562_rnaser_map.T)].T
-# 根据平均值进行排序
+# Ranked by the mean value
 hela_norm_map = hela_norm_map[np.argsort(-np.mean(hela_norm_map.T,axis=0))].T
 hela_rnaser_map = hela_rnaser_map[np.argsort(-np.mean(hela_rnaser_map.T,axis=0))].T
 k562_norm_map = k562_norm_map[np.argsort(-np.mean(k562_norm_map.T,axis=0))].T
@@ -526,193 +502,12 @@ hela_rnaser_map_filted = hela_rnaser_map[:,0:200].T
 k562_norm_map_filted = k562_norm_map[:,0:200].T
 k562_rnaser_map_filted = k562_rnaser_map[:,0:200].T
 
-##############
-# Figure 3-2 #
-##############
-# figure 3-2 Venn plot of norm datasets
-# import venn as v
-#
-# total = norm[0]
-# for i in range(len(norm)-1):
-#     total = pd.merge(total,norm[i+1],on=['chrom', 'start', 'end'],how='outer')
-#
-# total['ID'] = range(len(total))
-# for i in range(len(norm)):
-#     norm[i] = pd.merge(norm[i],total,on=['chrom', 'start', 'end'],how='inner')
-#
-# normsets = [set(norm[0]['ID']), set(norm[1]['ID']),set(norm[2]['ID']),set(norm[3]['ID']),set(norm[4]['ID']),set(norm[5]['ID']),set(norm[6]['ID'])]
-# plt.figure(figsize=(12, 8), dpi=300)
-#
-# f = open('software_list.txt', 'r') # 读取软件列表
-# d={}
-#
-# d.fromkeys(d.fromkeys(softlist))
-# for line, i in zip(f, range(len(softlist))):
-#     line = line.replace('\n', '')
-#     print(i)
-#     print(line)
-#     d[line] = normsets[i]
-#
-# out = v.venn(d, fontsize=20)
-# plt.show()
-
-##############
-# Figure 3-3 #
-##############
-# Hypo_venn_plot
-# for i in range(len(hypo)):
-#     hypo[i] = pd.merge(hypo[i],total,on=['chrom', 'start', 'end'],how='inner')
-#
-# hyposets = [set(hypo[0]['ID']), set(hypo[1]['ID']),set(hypo[2]['ID']),set(hypo[3]['ID']),set(hypo[4]['ID']),set(hypo[5]['ID']),set(norm[6]['ID'])]
-# plt.figure(figsize=(12, 8), dpi=300)
-# f = open('software_list.txt', 'r') # 读取软件列表
-# d={}
-#
-# d.fromkeys(d.fromkeys(softlist))
-# for line,i in zip(f, range(len(softlist))):
-#     line = line.replace('\n', '')
-#     print(i)
-#     print(line)
-#     d[line] = hyposets[i]
-#
-# out = v.venn(d, fontsize=20)
-# plt.show()
-
-##############
-# Figure 4-1   #
-##############
-#figure 4-1
-from matplotlib.colors import LinearSegmentedColormap
-lut=dict(zip(np.unique(typelist),'gb'))
-colcolors=[lut[i] for i in typelist]
-cmap1=LinearSegmentedColormap.from_list('mycmap',['royalblue','white','darkred'])
-def draw_reads_level():
-    # 作图阶段
-    fig = plt.figure(dpi=300)
-    # 定义画布为1*1个划分，并在第1个位置上进行作图
-    ax = fig.add_subplot(211)
-    # 定义横纵坐标的刻度
-    ax.set_yticks(range(len(yLabel)))
-    ax.set_yticklabels(yLabel)
-    # ax.set_xticks(range(len(norm_map)))
-
-    ax.grid(False)
-
-    # 作图并选择热图的颜色填充风格，这里选择hot
-    # im = ax.imshow(norm_map_filted, cmap=plt.cm.RdYlGn_r,aspect='auto')
-
-    im = sns.clustermap(hela_norm_map_filted, row_cluster=False, col_colors=colcolors, xticklabels=softlist, yticklabels=False,\
-                        cmap=cmap1, cbar_kws={'label': 'log2(read counts)','orientation': 'vertical','pad':0.15}, \
-                        cbar_pos=(0.06, 0.2, 0.03, 0.4))
-    plt.setp(im.ax_heatmap.xaxis.get_majorticklabels(),fontsize=20,rotation=45)
-    sns.set('paper')
-    # cb = plt.colorbar(im)
-    # cb.ax.tick_params(labelsize=15)
-    # font = {
-    #     'family': ' sans-serif',
-    #     'color': 'black',
-    #     'weight': 'normal',
-    #     'size': 15
-    # }
-    # cb.set_label('log2 (reads count)', fontdict=font)
-    # plt.gcf().subplots_adjust(bottom=0.15)
-    plt.savefig('fig4A.svg', dpi=600,bbox_inches='tight')
-    ax = fig.add_subplot(212)
-    # 定义横纵坐标的刻度
-    ax.set_yticks(range(len(yLabel)))
-    ax.set_yticklabels(yLabel)
-
-    ax.grid(False)
-    # im2 = ax.imshow(hypo_map_filted, cmap=plt.cm.RdYlGn_r,aspect='auto')
-    im2 = sns.clustermap(hela_rnaser_map_filted, row_cluster=False, col_colors=colcolors, xticklabels=softlist, yticklabels=False,\
-                        cmap=cmap1, cbar_kws={'label': 'log2(read counts)','orientation': 'vertical','pad':0.15}, \
-                        cbar_pos=(0.06, 0.2, 0.03, 0.4))
-    plt.setp(im2.ax_heatmap.xaxis.get_majorticklabels(),fontsize=20,rotation=45)
-    # 增加右侧的颜色刻度条
-    # cb = plt.colorbar(im2)
-    # cb.ax.tick_params(labelsize=15)
-    # font = {
-    #     'family': ' sans-serif',
-    #     'color': 'black',
-    #     'weight': 'normal',
-    #     'size': 15
-    # }
-    # cb.set_label('log2 (reads count)', fontdict=font)
-    # plt.gcf().subplots_adjust(bottom=0.15)
-    plt.savefig('fig4B.svg', dpi=600,bbox_inches='tight')
-    plt.show()
-
-figure_4 = draw_reads_level()
-
-##############
-# Figure 4-2   #
-##############
-#figure 4-2
-def draw_reads_level_total():
-    # 作图阶段
-    fig = plt.figure(figsize=(20,20),dpi=300)
-    # 定义画布为1*1个划分，并在第1个位置上进行作图
-    ax = fig.add_subplot(211)
-    # 定义横纵坐标的刻度
-    ax.set_yticks(range(len(yLabel)))
-    ax.set_yticklabels(yLabel)
-    # ax.set_xticks(range(len(norm_map)))
-
-    ax.grid(False)
-    # 作图并选择热图的颜色填充风格，这里选择hot
-    # im = ax.imshow(norm_map, cmap=plt.cm.RdYlGn_r,aspect='auto')
-    im = sns.clustermap(k562_norm_map_filted, row_cluster=False, col_colors=colcolors, xticklabels=softlist, yticklabels=False,\
-                        cmap=cmap1, cbar_kws={'label': 'log2(read counts)','orientation': 'vertical','pad':0.15},\
-                        cbar_pos=(0.06, 0.2, 0.03, 0.4))
-    plt.setp(im.ax_heatmap.xaxis.get_majorticklabels(),fontsize=20,rotation=45)
-    sns.set('paper')
-    # cb = plt.colorbar(im)
-    # cb.ax.tick_params(labelsize=15)
-    # font = {
-    #     'family': ' sans-serif',
-    #     'color': 'black',
-    #     'weight': 'normal',
-    #     'size': 15
-    # }
-    # cb.set_label('log2 (reads count)', fontdict=font)
-    ax = fig.add_subplot(212)
-    # 定义横纵坐标的刻度
-    ax.set_yticks(range(len(yLabel)))
-    ax.set_yticklabels(yLabel)
-    # plt.gcf().subplots_adjust(bottom=0.15)
-
-    plt.savefig('fig4C.svg', dpi=600, bbox_inches='tight')
-
-    ax.grid(False)
-    # im2 = ax.imshow(hypo_map, cmap=plt.cm.RdYlGn_r,aspect='auto')
-    im2 = sns.clustermap(k562_rnaser_map_filted, row_cluster=False, col_colors=colcolors, xticklabels=softlist, yticklabels=False,\
-                        cmap=cmap1, cbar_kws={'label': 'log2(read counts)','orientation': 'vertical','pad':0.15},\
-                        cbar_pos=(0.06, 0.2, 0.03, 0.4))
-    plt.setp(im2.ax_heatmap.xaxis.get_majorticklabels(),fontsize=20,rotation=45)
-    # 增加右侧的颜色刻度条
-    # cb = plt.colorbar(im2)
-    # cb.ax.tick_params(labelsize=15)
-    # font = {
-    #     'family': ' sans-serif',
-    #     'color': 'black',
-    #     'weight': 'normal',
-    #     'size': 15
-    # }
-    # cb.set_label('log2 (reads count)', fontdict=font)
-    # plt.gcf().subplots_adjust(bottom=0.15)
-
-    plt.savefig('fig4D.svg', dpi=600, bbox_inches='tight')
-    plt.show()
-
-figure_4_2 = draw_reads_level_total()
-
-##############
-# Figure 5   #
-##############
-# Figure 5 cross validation level
-
+#################
+# Figure 4A-B   #
+#################
+# Figure 4 cross validation level
 def draw_crossvalidation():
-    # 定义热图的横纵坐标
+    # Set the axis and labels
     xLabel = softlist
     yLabel = xLabel.copy()
     yLabel.reverse()
@@ -741,24 +536,24 @@ def draw_crossvalidation():
 
         data1.append(temp)
 
-    # 作图阶段
+    # Create a canvas
     fig = plt.figure(figsize=(15,12), dpi=300)
-    # 定义画布为2*1个划分，并在第1个位置上进行作图
+    # Define the canvas with 2*1 and plot it in the first position
     ax = fig.add_subplot(111)
-    # 定义横纵坐标的刻度
+    # Define the axis and labels
     ax.set_yticks(range(len(yLabel)))
     ax.set_yticklabels(yLabel,fontsize=25)
     ax.set_xticks(range(len(xLabel)))
     ax.set_xticklabels(xLabel,fontsize=25)
     ax.grid(False)
-    # 作图并选择热图的颜色填充风格，这里选择hot
+    # plot the clustermap by selecting specific colormap style
     im = ax.imshow(data, cmap=cmap1,vmin=0, vmax=1)
     # ax.set_aspect(5)
     # sns.clustermap(norm_map, method='ward', metric='euclidean', row_cluster=True, col_cluster=False, cmap=plt.cm.RdYlGn_r, \
     #         xticklabels=False, yticklabels=['find_circ','CIRCexplorer2','CircRNAfinder'], fontsize=15)
     for tick in ax.get_xticklabels():
         tick.set_rotation(60)
-    # 增加右侧的颜色刻度条
+    # Add the right colorbar
     cb = plt.colorbar(im,shrink=0.5)
     cb.ax.tick_params(labelsize=20)
     font = {
@@ -771,20 +566,20 @@ def draw_crossvalidation():
     plt.gcf().subplots_adjust(bottom=0.15)
     plt.savefig('fig3A.svg', dpi=600, bbox_inches='tight')
     plt.show()
-    # 定义画布为2*1个划分，并在第1个位置上进行作图
+    # Define the canvas with 2*1 and plot it in the first position
     fig = plt.figure(figsize=(15, 12), dpi=300)
     ax = fig.add_subplot(111)
-    # 定义横纵坐标的刻度
+    # Define the axis and labels
     ax.set_yticks(range(len(yLabel)))
     ax.set_yticklabels(yLabel, fontsize=25)
     ax.set_xticks(range(len(xLabel)))
     ax.set_xticklabels(xLabel, fontsize=25)
     ax.grid(False)
-    # 作图并选择热图的颜色填充风格，这里选择hot
+    # plot the clustermap by selecting specific colormap style
     im = ax.imshow(data1, cmap=cmap1, vmin=0, vmax=1)
     for tick in ax.get_xticklabels():
         tick.set_rotation(60)
-    # 增加右侧的颜色刻度条
+    # Add the right colorbar
     cb1 = plt.colorbar(im,shrink=0.5)
     cb1.ax.tick_params(labelsize=20)
 
@@ -794,11 +589,142 @@ def draw_crossvalidation():
     plt.savefig('fig3B.svg', dpi=600, bbox_inches='tight')
     plt.show()
 
-figure_5 = draw_crossvalidation()
+figure_4 = draw_crossvalidation()
 
-################################################################
-# Figure 7 The frequencies of circRNAs after RNase R digestion #
-################################################################
+
+################
+# Figure 5A-B   #
+################
+#figure 5A-B 
+from matplotlib.colors import LinearSegmentedColormap
+lut=dict(zip(np.unique(typelist),'gb'))
+colcolors=[lut[i] for i in typelist]
+cmap1=LinearSegmentedColormap.from_list('mycmap',['royalblue','white','darkred'])
+def draw_reads_level():
+    # Create a canvas
+    fig = plt.figure(dpi=300)
+    # Define the canvas with 1*1
+    ax = fig.add_subplot(211)
+    # Define the y-axis and labels
+    ax.set_yticks(range(len(yLabel)))
+    ax.set_yticklabels(yLabel)
+    # ax.set_xticks(range(len(norm_map)))
+
+    ax.grid(False)
+
+    # plot the clustermap by selecting specific colormap style
+    # im = ax.imshow(norm_map_filted, cmap=plt.cm.RdYlGn_r,aspect='auto')
+
+    im = sns.clustermap(hela_norm_map_filted, row_cluster=False, col_colors=colcolors, xticklabels=softlist, yticklabels=False,\
+                        cmap=cmap1, cbar_kws={'label': 'log2(read counts)','orientation': 'vertical','pad':0.15}, \
+                        cbar_pos=(0.06, 0.2, 0.03, 0.4))
+    plt.setp(im.ax_heatmap.xaxis.get_majorticklabels(),fontsize=20,rotation=45)
+    sns.set('paper')
+    # cb = plt.colorbar(im)
+    # cb.ax.tick_params(labelsize=15)
+    # font = {
+    #     'family': ' sans-serif',
+    #     'color': 'black',
+    #     'weight': 'normal',
+    #     'size': 15
+    # }
+    # cb.set_label('log2 (reads count)', fontdict=font)
+    # plt.gcf().subplots_adjust(bottom=0.15)
+    plt.savefig('fig4A.svg', dpi=600,bbox_inches='tight')
+    ax = fig.add_subplot(212)
+    # Define the y-axis and labels
+    ax.set_yticks(range(len(yLabel)))
+    ax.set_yticklabels(yLabel)
+
+    ax.grid(False)
+    # im2 = ax.imshow(hypo_map_filted, cmap=plt.cm.RdYlGn_r,aspect='auto')
+    im2 = sns.clustermap(hela_rnaser_map_filted, row_cluster=False, col_colors=colcolors, xticklabels=softlist, yticklabels=False,\
+                        cmap=cmap1, cbar_kws={'label': 'log2(read counts)','orientation': 'vertical','pad':0.15}, \
+                        cbar_pos=(0.06, 0.2, 0.03, 0.4))
+    plt.setp(im2.ax_heatmap.xaxis.get_majorticklabels(),fontsize=20,rotation=45)
+    # Add the right colorbar 
+    # cb = plt.colorbar(im2)
+    # cb.ax.tick_params(labelsize=15)
+    # font = {
+    #     'family': ' sans-serif',
+    #     'color': 'black',
+    #     'weight': 'normal',
+    #     'size': 15
+    # }
+    # cb.set_label('log2 (reads count)', fontdict=font)
+    # plt.gcf().subplots_adjust(bottom=0.15)
+    plt.savefig('fig4B.svg', dpi=600,bbox_inches='tight')
+    plt.show()
+
+figure_5_1 = draw_reads_level()
+
+#################
+# Figure 5C-D   #
+#################
+#figure 5C-D
+def draw_reads_level_total():
+    # Create a canvas
+    fig = plt.figure(figsize=(20,20),dpi=300)
+    # Define the canvas with 1*1
+    ax = fig.add_subplot(211)
+    # Set the y-axis and labels
+    ax.set_yticks(range(len(yLabel)))
+    ax.set_yticklabels(yLabel)
+    # ax.set_xticks(range(len(norm_map)))
+
+    ax.grid(False)
+    # plot the clustermap by selecting specific colormap style
+    # im = ax.imshow(norm_map, cmap=plt.cm.RdYlGn_r,aspect='auto')
+    im = sns.clustermap(k562_norm_map_filted, row_cluster=False, col_colors=colcolors, xticklabels=softlist, yticklabels=False,\
+                        cmap=cmap1, cbar_kws={'label': 'log2(read counts)','orientation': 'vertical','pad':0.15},\
+                        cbar_pos=(0.06, 0.2, 0.03, 0.4))
+    plt.setp(im.ax_heatmap.xaxis.get_majorticklabels(),fontsize=20,rotation=45)
+    sns.set('paper')
+    # cb = plt.colorbar(im)
+    # cb.ax.tick_params(labelsize=15)
+    # font = {
+    #     'family': ' sans-serif',
+    #     'color': 'black',
+    #     'weight': 'normal',
+    #     'size': 15
+    # }
+    # cb.set_label('log2 (reads count)', fontdict=font)
+    ax = fig.add_subplot(212)
+    # Set the y-axis and labels
+    ax.set_yticks(range(len(yLabel)))
+    ax.set_yticklabels(yLabel)
+    # plt.gcf().subplots_adjust(bottom=0.15)
+
+    plt.savefig('fig4C.svg', dpi=600, bbox_inches='tight')
+
+    ax.grid(False)
+    # im2 = ax.imshow(hypo_map, cmap=plt.cm.RdYlGn_r,aspect='auto')
+    im2 = sns.clustermap(k562_rnaser_map_filted, row_cluster=False, col_colors=colcolors, xticklabels=softlist, yticklabels=False,\
+                        cmap=cmap1, cbar_kws={'label': 'log2(read counts)','orientation': 'vertical','pad':0.15},\
+                        cbar_pos=(0.06, 0.2, 0.03, 0.4))
+    plt.setp(im2.ax_heatmap.xaxis.get_majorticklabels(),fontsize=20,rotation=45)
+    # Add the right colorbar
+    # cb = plt.colorbar(im2)
+    # cb.ax.tick_params(labelsize=15)
+    # font = {
+    #     'family': ' sans-serif',
+    #     'color': 'black',
+    #     'weight': 'normal',
+    #     'size': 15
+    # }
+    # cb.set_label('log2 (reads count)', fontdict=font)
+    # plt.gcf().subplots_adjust(bottom=0.15)
+
+    plt.savefig('fig4D.svg', dpi=600, bbox_inches='tight')
+    plt.show()
+
+figure_5_2 = draw_reads_level_total()
+
+
+
+#####################################################################################
+# Figure 6/S5 The frequencies and distribution of circRNAs after RNase R digestion  #
+#####################################################################################
 # RNaseR+/RNaseR-
 xLabel=['hela','k562']
 def draw_freq_rnaser(fig_name,input_norm,input_rnaser,xLabel,key):
@@ -859,7 +785,7 @@ def draw_freq_rnaser(fig_name,input_norm,input_rnaser,xLabel,key):
             depleted_data = norm[i][norm[i]['circRNA_ID'].isin(list(depleted))].loc[:, ['circRNA_ID', 'n_reads']]
             depleted_data['type'] = 'depleted'
 
-        # 整合不同部分的reads数据
+        # Combine the expression matrix from different datasets
         total_data = pd.concat([uneffected_data,enrich_data,depleted_data],axis=0)
         total_data = total_data.sort_values(by='n_reads',axis = 0,ascending = False).iloc[0:10000,:]
         total_data.columns = ['circRNA_ID','n_reads','type']
@@ -871,14 +797,16 @@ def draw_freq_rnaser(fig_name,input_norm,input_rnaser,xLabel,key):
         enrich_rate.loc[yLabel[i], 'depleted'] = [len(uneffected), len(enrich), len(depleted)][2]
 
     temp=enrich_rate.T
-    # 计算不同部分的比例
+    # Calculate the fraction of different types (depletion, uneffected and enriched)
     percentages = np.zeros((10, 3))
     col_sum = np.sum(temp, axis=0)
     for i in range(temp.shape[0]):
         for j in range(len(temp.iloc[i,])):
             percentages[j, i] = temp.iloc[i, j] / col_sum[j] * 100
 
-
+###################################################################
+# Figure 6 The frequencies of circRNAs after RNase R digestion    #
+###################################################################
     fig=plt.figure(figsize=(12,8),dpi=300)
     ax = fig.add_subplot(111)
     plt.style.use('ggplot')
@@ -894,7 +822,7 @@ def draw_freq_rnaser(fig_name,input_norm,input_rnaser,xLabel,key):
     plt.ylabel('#circRNA',fontsize=20)
     plt.xlabel('software',fontsize=20)
 
-    # 为堆积柱状图添加比例
+    # Add the fraction into figure for stacked bar plot
     # search all of the bar segments and annotate
     bl = np.zeros(temp.shape[1])
     for j in [2,0,1]:
@@ -910,9 +838,9 @@ def draw_freq_rnaser(fig_name,input_norm,input_rnaser,xLabel,key):
     plt.show()
 
 ################################################################################
-# Figure 9 The enrichiment or depletion of circRNAs at reads level      ########
+# Figure S5 The enrichiment or depletion of circRNAs at reads level            #
 ################################################################################
-    # 绘制reads水平上的RNase R处理前后的表达情况
+    # Plot the distribution of circRNA ranked by expression level before and after RNaseR treat
     fig,ax=plt.subplots(figsize=(12,8),nrows=3,ncols=3,dpi=300)
     n=0
     for r in range(3):
@@ -935,11 +863,11 @@ def draw_freq_rnaser(fig_name,input_norm,input_rnaser,xLabel,key):
     plt.show()
     return enrich_reads_rate
 
-figure_8_1 = draw_freq_rnaser('fig_8A',hela_norm,hela_rnaser,xLabel[0],key='total')
-figure_8_2 = draw_freq_rnaser('fig_8B',k562_norm,k562_rnaser,xLabel[1],key='total')
+figure_S5_1 = draw_freq_rnaser('fig_8A',hela_norm,hela_rnaser,xLabel[0],key='total')
+figure_S5_2 = draw_freq_rnaser('fig_8B',k562_norm,k562_rnaser,xLabel[1],key='total')
 
-figure_8_3 = draw_freq_rnaser('fig_8C',hela_norm,hela_rnaser,xLabel[0],key='shared')
-figure_8_4 = draw_freq_rnaser('fig_8D',k562_norm,k562_rnaser,xLabel[1],key='shared')
+figure_S5_3 = draw_freq_rnaser('fig_8C',hela_norm,hela_rnaser,xLabel[0],key='shared')
+figure_S5_4 = draw_freq_rnaser('fig_8D',k562_norm,k562_rnaser,xLabel[1],key='shared')
 
 
 

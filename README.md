@@ -23,19 +23,22 @@ The real datasets are available from the NCBI Gene Expression Omnibus (GEO) data
 # Useage
 - bash.sh: one-step shell script of general circRNA-seq analysis pipeline for all software tools
 ## results  
-the raw, filtered or/and annotated predicted candidates by each software under different dataset (can be downloaded from figshare: https://doi.org/10.6084/m9.figshare.19090640.v1).
-- circ_candidates.bed: raw identified circRNA bed format file for each software package
+The raw, filtered or/and annotated predicted candidates by each software under different dataset (can be downloaded from figshare: https://doi.org/10.6084/m9.figshare.19090640.v1).
+- circ_candidates.bed (CIRCexplorer2) or other different files exclude followings: raw identified circRNA bed or other format files for each software package
 - circ_candidates_convert.bed: coonverted circRNA bed format file (genome coordinate converted to uniform 0-based format)
 - circularRNA_known.txt: annotated circRNA information file generated from CIRCexplorer2 annotate moudle
 - circRNA_known_annotated.txt: it contains annotated circRNA list (circularRNA_known.txt) merged by the known circRNA retrieved from circBase and circAtlas database
+- BackgroundPlotdf.csv: The dataset of plotting upset plot of circRNA candidates on background datasets with different depths
+- BackgroundRaw.csv: Raw datasets of expression matrix of circRNA predicted by all software on background datasets with different depths
 - performance.csv: recorded prediction performance indices of all software tools
-
-## scripts 
+## scripts
+- get_reads_length.py: get the average read length of all datasets
+- summarize.py: summarize the raw results (*_filt.sngl.bed) of segemehl into summary bed file (*.sum.bed)
 downstream analysis scripts for data clean, analysis and visualization with python or R
 - conversion.r: convert raw genome coordinate (0-based or 1-based) to 0-based.
 - annotation.r: merge annotated circRNA list (circularRNA_known.txt) by the known circRNA retrieved from circBase and circAtlas database
-- pr-RnaseR.py: data clean and downstream analysis python script
-
+- pr-RnaseR.py: data clean and downstream analysis python script for positive, mixed, and real datasets
+- background_analysis.py: data clean and downstream analysis python script for background datasets
 ## shell_scripts  
 general prediction pipeline for each software from short reads
 
