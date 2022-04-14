@@ -18,6 +18,15 @@ the Free Software Foundation, either version 3 of the License, or
 ******************
 # Table of contents
 ******************
+* [Background](#background)
+* [Usage](#usage)
+  * [config](#config)
+  * [results](#results)
+  * [scripts](#scripts)
+    * [circRNA detection](#circrna-detection)
+    * [Downstream analysis](#downstream-analysis)
+  * [shell\_scripts](#shell_scripts)
+  
 [![](https://img.shields.io/badge/Python-3.5.2-brightgreen)](https://www.python.org/downloads/release/python-352/)
 ![](https://img.shields.io/badge/matplotlib-3.3.3-blue)
 [![](https://img.shields.io/badge/R-4.1.0-orange)](https://cloud.r-project.org/src/base/R-4/R-4.1.0.tar.gz)
@@ -44,13 +53,15 @@ The raw, filtered or/and annotated predicted candidates by each software under d
 - BackgroundRaw.csv: Raw datasets of expression matrix of circRNA predicted by all software on background datasets with different depths
 - performance.csv: recorded prediction performance indices of all software tools
 ## scripts
+### circRNA detection
 - get_reads_length.py: get the average read length of all datasets
 - summarize.py: summarize the raw results (*_filt.sngl.bed) of segemehl into summary bed file (*.sum.bed)
-downstream analysis scripts for data clean, analysis and visualization with python or R
+### Downstream analysis
+The following scripts are used for data clean, analysis and visualization with python or R
 - conversion.r: convert raw genome coordinate (0-based or 1-based) to 0-based.
 - annotation.r: merge annotated circRNA list (circularRNA_known.txt) by the known circRNA retrieved from circBase and circAtlas database
 - pr-RnaseR.py: data clean and downstream analysis python script for positive, mixed, and real datasets
 - background_analysis.py: data clean and downstream analysis python script for background datasets
 ## shell_scripts  
-general prediction pipeline for each software from short reads
+The general prediction pipeline for each software from short-read RNA-seq
 
