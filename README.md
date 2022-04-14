@@ -1,11 +1,12 @@
 **********************************
-Copyright and License Information
+# Copyright and License Information
 **********************************
 Copyright (C) 2021
 Northwest A&F University,
 Mingzhi Liao, Xianyong Lan
   
 Authors: Hongfei Liu
+Contact: lhf563@nwafu.edu.cn
 
 This project is avaliable for the comparison of different circRNA software packages predicted from short-read illumina sequencing datasets.
 All of data and source code are free and you can redistribute it and/or modify
@@ -14,8 +15,12 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 ******************
-Table of contents
+# Table of contents
 ******************
+[![](https://img.shields.io/badge/Python-3.5.2-brightgreen)](https://www.python.org/downloads/release/python-352/)
+![](https://img.shields.io/badge/matplotlib-3.3.3-blue)
+[![](https://img.shields.io/badge/R-4.1.0-orange)](https://cloud.r-project.org/src/base/R-4/R-4.1.0.tar.gz)
+![](https://img.shields.io/badge/ggplot2-3.3.5-red)
 # Background
 Circular RNA is generally formed by the “back-splicing” process between the upstream splice acceptor and the downstream donor in/not in the regulation of the corresponding RNA-binding proteins or cis-elements. Therefore, more and more software packages that have been developed based on the identification of the back-spliced junction (BSJ) reads. However, recent studies have developed two software tools that can detect circRNA candidates by constructing k-mer table or/and de bruijn graph rather than reads mapping.
 Here, we compared the precision, sensitivity and detection efficiency between software tools based on different algorithms. Eleven representative detection tools with two types of algorithm were selected for the overall pipeline of analysis of RNA-seq datasets with/without RNase R treatment in two cell lines. Precision, sensitivity, AUC, F1 score and detection efficiency metrics were assessed to compare prediction tools. Meanwhile, the sensitivity and distribution of highly expressed circRNAs before and after RNase R treatment were also revealed by their enrichment, unaffected and depleted candidate frequencies. Eventually, we found that compared to the k-mer based tools, CIRI2 and KNIFE with reads mapping based had relatively superior and balanced detection performance regardless of the cell line or RNase R (-/+) datasets. In summary, the novel k-mer based software show dominant performance on sensitivity and computational efficiency in circRNA discovery. This study may provide new insights into development and application in circRNA detection tools.
