@@ -33,17 +33,18 @@ the Free Software Foundation, either version 3 of the License, or
   * [shell\_scripts](#shell_scripts)
   
 # Background
-  Circular RNA is generally formed by the “back-splicing” process between the upstream splice acceptor and the downstream donor in/not in the regulation of the corresponding RNA-binding proteins or cis-elements. Therefore, more and more software packages that have been developed based on the identification of the back-spliced junction (BSJ) reads. However, recent studies have developed two software tools that can detect circRNA candidates by constructing k-mer table or/and de bruijn graph rather than reads mapping.  
-  Here, we compared the precision, sensitivity and detection efficiency between software tools based on different algorithms. Eleven representative detection tools with two types of algorithm were selected for the overall pipeline of analysis of RNA-seq datasets with/without RNase R treatment in two cell lines. Precision, sensitivity, AUC, F1 score and detection efficiency metrics were assessed to compare prediction tools. Meanwhile, the sensitivity and distribution of highly expressed circRNAs before and after RNase R treatment were also revealed by their enrichment, unaffected and depleted candidate frequencies. Eventually, we found that compared to the k-mer based tools, CIRI2 and KNIFE with reads mapping based had relatively superior and balanced detection performance regardless of the cell line or RNase R (-/+) datasets. In summary, the novel k-mer based software show dominant performance on sensitivity and computational efficiency in circRNA discovery. This study may provide new insights into development and application in circRNA detection tools.
+  Circular RNA is generally formed by the "back-splicing" process between the upstream splice acceptor and the downstream donor in/not in the regulation of the corresponding RNA-binding proteins or cis-elements. Therefore, more and more software packages that have been developed based on the identification of the back-spliced junction (BSJ) reads. However, recent studies have developed two software tools that can detect circRNA candidates by constructing k-mer table or/and de bruijn graph rather than reads mapping.
+  
+  Here, we compared the precision, sensitivity and detection efficiency between software tools based on different algorithms. Eleven representative detection tools with two types of algorithm were selected for the overall pipeline of analysis of RNA-seq datasets with/without RNase R treatment in two cell lines. Precision, sensitivity, AUC, F1 score and detection efficiency metrics were assessed to compare prediction tools. Meanwhile, the sensitivity and distribution of highly expressed circRNAs before and after RNase R treatment were also revealed by their enrichment, unaffected and depleted candidate frequencies. Eventually, we found that compared to the k-mer based tools, [CIRI2][CIRI2] and [KNIFE][KNIFE] with reads mapping based had relatively superior and balanced detection performance regardless of the cell line or RNase R (-/+) datasets. In summary, the novel k-mer based software show dominant performance on sensitivity and computational efficiency in circRNA discovery. This study may provide new insights into development and application in circRNA detection tools.
 
-  The real datasets are available from the NCBI Gene Expression Omnibus (GEO) database (BioProject: PRJNA231724, GEO: GSE53327) followed by different RNase R treatment in two cell lines.
+  The real datasets are available from the NCBI Gene Expression Omnibus (GEO) database (BioProject: [PRJNA231724](https://www.ncbi.nlm.nih.gov/bioproject/?term=PRJNA231724), GEO: [GSE53327](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE53327)) followed by different RNase R treatment in two cell lines.
 # Usage
 - bash.sh: one-step shell script of general circRNA-seq analysis pipeline for all software tools. As for the specific and detailed usage of this shell script and/or other scripts, please read the description in these scripts or try to run them.
 - SRR_list.txt: the file contains accesson_id of all fastq files
 ## config
 The required config files for specific software
 - CDBG_config.ini: config file of CircDBG, which contains reference fasta file, annotation file, reads1/2, and other required or optional parameters. Of which, Reference, GTF, Reads1/2, and options in Parameter section is important and required.
-- CM_config.ini: config file of CircMarker like CircDBG
+- CM_config.ini: config file of [CircMarker](https://github.com/lxwgcool/CircMarker) like [CircDBG](https://github.com/lxwgcool/CircDBG)
 - paired_sample: config file of segemehl, which maily contains the absolute or relative path of results of BSJ reads given by STAR alignment
 ## results  
 The raw, filtered or/and annotated predicted candidates by each software under different dataset (can be downloaded from figshare: https://doi.org/10.6084/m9.figshare.19090640.v1).
@@ -61,9 +62,14 @@ The raw, filtered or/and annotated predicted candidates by each software under d
 ### Downstream analysis
 The following scripts are used for data clean, analysis and visualization with python or R
 - conversion.r: convert raw genome coordinate (0-based or 1-based) to 0-based.
-- annotation.r: merge annotated circRNA list (circularRNA_known.txt) by the known circRNA retrieved from circBase and circAtlas database
+- annotation.r: merge annotated circRNA list (circularRNA_known.txt) by the known circRNA retrieved from [circBase][circBase] and [circAtlas][circAtlas] database
 - pr-RnaseR.py: data clean and downstream analysis python script for positive, mixed, and real datasets
 - background_analysis.py: data clean and downstream analysis python script for background datasets
 ## shell_scripts  
 The general prediction pipeline for each software from short-read RNA-seq
 
+
+[ CIRI2 ]: https://sourceforge.net/projects/ciri/files/CIRI2/
+[ KNIFE ]: https://github.com/blawney/knife_circ_rna
+[circBase]: http://www.circbase.org/
+[circAtlas]: http://circatlas.biols.ac.cn/
