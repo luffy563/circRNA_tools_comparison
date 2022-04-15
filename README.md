@@ -43,22 +43,22 @@ the Free Software Foundation, either version 3 of the License, or
 - SRR_list.txt: the file contains accesson_id of all fastq files
 ## config
 The required config files for specific software
-- CDBG_config.ini: config file of CircDBG, which contains reference fasta file, annotation file, reads1/2, and other required or optional parameters. Of which, Reference, GTF, Reads1/2, and options in Parameter section is important and required.
+- CDBG_config.ini: config file of [CircDBG](https://github.com/lxwgcool/CircDBG), which contains reference fasta file, annotation file, reads1/2, and other required or optional parameters. Of which, Reference, GTF, Reads1/2, and options in Parameter section is important and required.
 - CM_config.ini: config file of [CircMarker](https://github.com/lxwgcool/CircMarker) like [CircDBG](https://github.com/lxwgcool/CircDBG)
-- paired_sample: config file of segemehl, which maily contains the absolute or relative path of results of BSJ reads given by STAR alignment
+- paired_sample: config file of [segemehl][segemehl], which maily contains the absolute or relative path of results of BSJ reads given by STAR alignment
 ## results  
 The raw, filtered or/and annotated predicted candidates by each software under different dataset (can be downloaded from figshare: https://doi.org/10.6084/m9.figshare.19090640.v1).
-- circ_candidates.bed (CIRCexplorer2) or other different files exclude followings: raw identified circRNA bed or other format files for each software package
+- circ_candidates.bed ([CIRCexplorer2][CIRCexplorer2]) or other different files exclude followings: raw identified circRNA bed or other format files for each software package
 - circ_candidates_convert.bed: coonverted circRNA bed format file (genome coordinate converted to uniform 0-based format)
-- circularRNA_known.txt: annotated circRNA information file generated from CIRCexplorer2 annotate moudle
-- circRNA_known_annotated.txt: it contains annotated circRNA list (circularRNA_known.txt) merged by the known circRNA retrieved from circBase and circAtlas database
+- circularRNA_known.txt: annotated circRNA information file generated from [CIRCexplorer2][CIRCexplorer2] annotate moudle
+- circRNA_known_annotated.txt: it contains annotated circRNA list (circularRNA_known.txt) merged by the known circRNA retrieved from [circBase][circBase] and [circAtlas][circAtlas] database
 - BackgroundPlotdf.csv: The dataset of plotting upset plot of circRNA candidates on background datasets with different depths
 - BackgroundRaw.csv: Raw datasets of expression matrix of circRNA predicted by all software on background datasets with different depths
 - performance.csv: recorded prediction performance indices of all software tools
 ## scripts
 ### circRNA detection
 - get_reads_length.py: get the average read length of all datasets
-- summarize.py: summarize the raw results (*_filt.sngl.bed) of segemehl into summary bed file (*.sum.bed)
+- summarize.py: summarize the raw results (*_filt.sngl.bed) of [segemehl][segemehl] into summary bed file (*.sum.bed)
 ### Downstream analysis
 The following scripts are used for data clean, analysis and visualization with python or R
 - conversion.r: convert raw genome coordinate (0-based or 1-based) to 0-based.
@@ -68,8 +68,9 @@ The following scripts are used for data clean, analysis and visualization with p
 ## shell_scripts  
 The general prediction pipeline for each software from short-read RNA-seq
 
-
+[ CIRCexplorer2 ]: https://circexplorer2.readthedocs.io/en/latest/
 [ CIRI2 ]: https://sourceforge.net/projects/ciri/files/CIRI2/
 [ KNIFE ]: https://github.com/blawney/knife_circ_rna
+[segemehl]: https://www.bioinf.uni-leipzig.de/Software/segemehl/
 [circBase]: http://www.circbase.org/
 [circAtlas]: http://circatlas.biols.ac.cn/
