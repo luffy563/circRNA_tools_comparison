@@ -31,7 +31,9 @@ the Free Software Foundation, either version 3 of the License, or
     * [circRNA detection](#circrna-detection)
     * [Downstream analysis](#downstream-analysis)
   * [shell\_scripts](#shell_scripts)
-  
+* [Citation](#citation)
+
+
 # Background
   Circular RNA is generally formed by the "back-splicing" process between the upstream splice acceptor and the downstream donor in/not in the regulation of the corresponding RNA-binding proteins or cis-elements. Therefore, more and more software packages that have been developed based on the identification of the back-spliced junction (BSJ) reads. However, recent studies have developed two software tools that can detect circRNA candidates by constructing k-mer table or/and de bruijn graph rather than reads mapping.
   
@@ -67,7 +69,10 @@ The following scripts are used for data clean, analysis and visualization with p
 - background_analysis.py: data clean and downstream analysis python script for background datasets
 ## shell_scripts  
 The general prediction pipeline for each software from short-read RNA-seq
+# Citation
+If you find this code useful in your research, please cite:
 
+Liu H, Akhatayeva Z, Pan C, Liao M, Lan X. Comprehensive comparison of two types of algorithm for circRNA detection from short-read RNA-Seq. Bioinformatics. 2022 Apr 28:btac302. doi: 10.1093/bioinformatics/btac302.
 [ CIRCexplorer2 ]: https://circexplorer2.readthedocs.io/en/latest/
 [ CIRI2 ]: https://sourceforge.net/projects/ciri/files/CIRI2/
 [ KNIFE ]: https://github.com/blawney/knife_circ_rna
