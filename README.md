@@ -72,7 +72,7 @@ The general prediction pipeline for each software from short-read RNA-seq
 # Citation
 If you find this code useful in your research, please cite:  
   
-  Liu H, Akhatayeva Z, Pan C, Liao M, Lan X. Comprehensive comparison of two types of algorithm for circRNA detection from short-read RNA-Seq. Bioinformatics. 2022 Apr 28:btac302. doi: 10.1093/bioinformatics/btac302.
+  Liu H, Akhatayeva Z, Pan C, Liao M, Lan X. Comprehensive comparison of two types of algorithm for circRNA detection from short-read RNA-Seq. Bioinformatics. 2022 Apr 28:btac302. doi: [10.1093/bioinformatics/btac302](https://doi.org/10.1093/bioinformatics/btac302).
 
 [CIRCexplorer2]: https://circexplorer2.readthedocs.io/en/latest/
 [CIRI2]: https://sourceforge.net/projects/ciri/files/CIRI2/
